@@ -4,7 +4,6 @@ export default class RectangleTool extends Tools {
     private startX: number;
     private startY: number;
     private memoizedImage: string;
-
     constructor(canvas) {
         super(canvas);
         this.listen();
@@ -16,22 +15,22 @@ export default class RectangleTool extends Tools {
         this.canvas.onmouseup = this.mouseUpHandler.bind(this);
     }
 
-    mouseUpHandler(e) {
+    mouseUpHandler(e: MouseEvent) {
         this.paint = false;
     }
 
     mouseDownHandler(e: MouseEvent) {
         this.paint = true;
         this.ctx.beginPath();
-        this.startX = e.clientX - this.canvas.offsetLeft;
+        this.startX = e.clientX -  Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', ''));
         this.startY = e.clientY - this.canvas.offsetTop;
         this.memoizedImage = this.canvas.toDataURL()
     }
 
-    mouseMoveHandler(e) {
+    mouseMoveHandler(e: MouseEvent) {
         if (this.paint) {
-            let currentX = e.clientX - this.canvas.offsetLeft;
-            let currentY = e.clientY - this.canvas.offsetTop;
+            let currentX = e.pageX -  Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', ''));
+            let currentY = e.pageY - this.canvas.offsetTop;
             let width = currentX - this.startX;
             let heigh = currentY - this.startY;
             this.draw(this.startX, this.startY, width, heigh);

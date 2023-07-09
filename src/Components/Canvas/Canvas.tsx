@@ -9,6 +9,7 @@ export const Canvas = observer(() => {
 
     const canvasRef = useRef(null)
 
+
     useEffect(() => {
         // console.log(canvasRef.current);
         canvasState.setCanvas(canvasRef.current)
@@ -17,7 +18,7 @@ export const Canvas = observer(() => {
 
     return (
         <div className={cls.Canvas}>
-            <canvas ref={canvasRef} height={600} width={800}/>
+            <canvas style={{zoom: '100%'}} ref={canvasRef} height={480} width={840}/>
         </div>
     );
 });

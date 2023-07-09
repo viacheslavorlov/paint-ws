@@ -12,26 +12,29 @@ export default class BrushTool extends Tools {
         this.canvas.onmouseup = this.mouseUpHandler.bind(this);
     }
 
-    mouseUpHandler(e) {
+    mouseUpHandler(e: MouseEvent) {
         this.paint = false;
     }
 
     mouseDownHandler(e: MouseEvent) {
         this.paint = true;
         this.ctx.beginPath();
-        this.ctx.moveTo(e.clientX - e.target.offsetLeft, e.clientY - e.target.offsetTop);
+        this.ctx.moveTo(e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')), e.clientY - this.canvas.offsetTop);
+        console.log(e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')), e.clientY - this.canvas.offsetTop);
     }
 
-    mouseMoveHandler(e) {
+    mouseMoveHandler(e: MouseEvent) {
         if (this.paint) {
-            this.draw(e.clientX - e.target.offsetLeft, e.clientY - e.target.offsetTop);
+            console.log(e.clientX);
+            console.log(e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')), e.clientY - this.canvas.offsetTop);
+            this.draw(e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')), e.clientY - this.canvas.offsetTop);
         }
     }
 
     draw(x, y) {
         this.ctx.lineTo(x, y);
         this.ctx.stroke();
-        console.log('draw');
+
     }
 
 }
