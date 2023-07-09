@@ -1,0 +1,12 @@
+.Canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - var(--toolbar-height) * 2);
+
+}
+
+.Canvas canvas {
+    background-color: white;
+    border: 1px solid gray;
+}
