@@ -3,9 +3,10 @@ export default class Tools {
 	protected ctx: CanvasRenderingContext2D;
 	paint: boolean;
 
-	constructor(canvas) {
+	constructor(canvas: HTMLCanvasElement) {
 		this.canvas = canvas;
-		this.ctx = canvas.getContext('2d');
+		this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+		this.paint = false
 		this.destroyEvent();
 	}
 
