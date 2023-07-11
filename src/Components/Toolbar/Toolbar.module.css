@@ -1,63 +1,60 @@
 .Toolbar {
-    height: var(--toolbar-height);
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: absolute;
-    width: 100%;
-    box-shadow: 0 4px 5px gray;
-    z-index: 10;
+	height: var(--toolbar-height);
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: absolute;
+	width: 100%;
+	box-shadow: 0 4px 5px gray;
+	z-index: 10;
 }
 
 .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 30px;
-    padding: 4px;
-    background: none;
-    border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	width: 30px;
+	padding: 4px;
+	background: none;
+	border: none;
 }
 
 .btn:focus {
-    outline: none;
+	outline: none;
 }
 
 .tools {
-    display: flex;
-    gap: 10px;
-    margin: 0 10px
+	display: flex;
+	gap: 10px;
+	margin: 0 10px;
 }
 
 .colorBg {
-    /*background: url("../../assets/menu-svg/image 1.svg") center no-repeat;*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 30px;
+	background: url('../../assets/menu-svg/fill.svg') center no-repeat;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	width: 30px;
 }
 
 .colorBg:hover {
-    border: 1px solid black;
+	border: 1px solid black;
 }
 
 .tools input {
-    /*opacity: 0.5;*/
-    cursor: pointer;
-
+	/*opacity: 0.5;*/
+	cursor: pointer;
 }
 
 .tools svg {
-    height: 25px;
-    width: 25px;
+	height: 25px;
+	width: 25px;
 }
 
 .tools svg:hover {
-    border: 1px solid black;
-    transform: scale(1.08);
+	border: 1px solid black;
+	transform: scale(1.08);
 }
-
-

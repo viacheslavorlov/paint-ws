@@ -1,10 +1,18 @@
 .SettingsBar {
-    top: var(--toolbar-height);
-    height: var(--toolbar-height);
-    background-color: white;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    box-shadow: 0 4px 5px gray;
+	top: var(--toolbar-height);
+	height: var(--toolbar-height);
+	background-color: white;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	width: 100%;
+	box-shadow: 0 4px 5px gray;
+}
+
+.inputWith {
+	width: 50px;
+}
+
+.inputWithLabel {
+	margin: 0 10px;
 }

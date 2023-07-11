@@ -1,6 +1,6 @@
 .app {
-    height: 100vh;
-    min-width: 100vw;
-    width: 100vw;
-    background: var(--background-color);
+	height: 100vh;
+	min-width: 100vw;
+	width: 100vw;
+	background: var(--background-color);
 }
