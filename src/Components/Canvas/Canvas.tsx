@@ -6,7 +6,7 @@ import BrushTool from '../../tools/BrushTool';
 import cls from './Canvas.module.css';
 
 export const Canvas = observer(() => {
-	const canvasRef = useRef(null);
+	const canvasRef = useRef<null | HTMLCanvasElement>(null);
 
 	useEffect(() => {
 		// console.log(canvasRef.current);
@@ -14,9 +14,13 @@ export const Canvas = observer(() => {
 		toolState.setTool(new BrushTool(canvasRef.current));
 	}, []);
 
+	const mouseDownHandler = () => {
+		canvasState.pushToUndo(canvasRef.current?.toDataURL());
+	};
+
 	return (
 		<div className={cls.Canvas}>
-			<canvas style={{ zoom: '100%' }} ref={canvasRef} height={480} width={840} />
+			<canvas onMouseDown={mouseDownHandler} style={{ zoom: '100%' }} ref={canvasRef} height={480} width={840} />
 		</div>
 	);
 });

@@ -1,6 +1,7 @@
 import BrushTool from './BrushTool';
 
 export default class EraiserTool extends BrushTool {
+	color: string;
 	constructor(canvas) {
 		super(canvas);
 	}
