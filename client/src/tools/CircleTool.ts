@@ -42,8 +42,6 @@ export default class CircleTool extends Tools {
 		const img = new Image();
 		img.src = this.memoizedImage;
 		img.onload = () => {
-			console.log(this.ctx.fillStyle);
-			console.log(this.ctx.strokeStyle);
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.beginPath();

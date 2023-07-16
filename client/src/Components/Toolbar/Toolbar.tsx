@@ -1,5 +1,5 @@
 import Brush from '/src/assets/menu-svg/brush.svg';
-import { ChangeEvent, useState } from 'react';
+import {useContext} from 'react';
 import Circle from '../../assets/menu-svg/circle.svg';
 import Eraser from '../../assets/menu-svg/eraser.svg';
 import Line from '../../assets/menu-svg/line.svg';
@@ -7,9 +7,10 @@ import Rectangle from '../../assets/menu-svg/rect.svg';
 import Redo from '../../assets/menu-svg/redo.svg';
 import Save from '../../assets/menu-svg/save.svg';
 import Undo from '../../assets/menu-svg/undo.svg';
+import {ColorsContext} from '../../Context/Context.js';
 import canvasState from '../../store/canvasState';
 import toolState from '../../store/toolState';
-import BrushTool from '../../tools/BrushTool';
+import BrushTool from '../../tools/BrushTool.js';
 import CircleTool from '../../tools/CircleTool';
 import EraserTool from '../../tools/EraizerTool';
 import LineTool from '../../tools/LineTool';
@@ -17,24 +18,30 @@ import RectangleTool from '../../tools/RectangleTool';
 import cls from './Toolbar.module.css';
 
 export const Toolbar = () => {
-	const [colorState, setColorState] = useState<string>('#000000');
-	const setColor = (e: ChangeEvent<HTMLInputElement>) => {
-		toolState.setFillColor(e.target.value);
-		setColorState(e.target.value);
-	};
+    const colors = useContext(ColorsContext)
 
 	const setBrush = () => {
 		toolState.setTool(new BrushTool(canvasState.canvas));
-		toolState.setStrokeColor(colorState);
+        if ('stroke' in colors) {
+            toolState.setStrokeColor(colors.stroke);
+        }
 	};
 
 	const setRect = () => {
 		toolState.setTool(new RectangleTool(canvasState.canvas));
-		toolState.setStrokeColor(colorState);
+        if ('stroke' in colors) {
+            toolState.setStrokeColor(colors.stroke);
+        }
+        if ('fill' in colors) {
+            toolState.setFillColor(colors.fill);
+        }
 	};
 
 	const setCircle = () => {
 		toolState.setTool(new CircleTool(canvasState.canvas));
+        if ('stroke' in colors) {
+            toolState.setStrokeColor(colors.stroke);
+        }
 	};
 
 	const setEraser = () => {
@@ -43,7 +50,9 @@ export const Toolbar = () => {
 
 	const setLine = () => {
 		toolState.setTool(new LineTool(canvasState.canvas));
-		toolState.setStrokeColor(colorState);
+        if ('stroke' in colors) {
+            toolState.setStrokeColor(colors.stroke);
+        }
 	};
 
 	const undo = () => {
@@ -72,7 +81,6 @@ export const Toolbar = () => {
 				<button id="line" className={cls.btn} onClick={setLine}>
 					<Line />
 				</button>
-				<input title={'Выберите цвет заливки'} type="color" className={cls.colorBg} onChange={setColor} />
 			</div>
 			<div className={cls.tools}>
 				<button onClick={undo} title={'Отменить'} id="undo" className={cls.btn}>

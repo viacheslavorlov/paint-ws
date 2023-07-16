@@ -9,9 +9,10 @@ export const Canvas = observer(() => {
 	const canvasRef = useRef<null | HTMLCanvasElement>(null);
 
 	useEffect(() => {
-		// console.log(canvasRef.current);
-		canvasState.setCanvas(canvasRef.current);
-		toolState.setTool(new BrushTool(canvasRef.current));
+		if (canvasRef.current !== null) {
+            canvasState.setCanvas(canvasRef.current as HTMLCanvasElement);
+            toolState.setTool(new BrushTool(canvasRef.current));
+        }
 	}, []);
 
 	const mouseDownHandler = () => {
