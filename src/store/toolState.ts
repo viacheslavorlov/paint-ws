@@ -1,27 +1,26 @@
 import { makeAutoObservable } from 'mobx';
-
-class ToolState {
-	tool = null;
-
+ class ToolState {
+	tool: CanvasRenderingContext2D | null = null;
 	constructor() {
 		makeAutoObservable(this);
 	}
-
-	setTool(tool) {
+	setTool(tool: CanvasRenderingContext2D) {
 		this.tool = tool;
 	}
-
-	setFillColor(color) {
-		this.tool.fillColor = color;
+	setFillColor(color: string) {
+		if (this.tool) {
+			this.tool.fillStyle = color;
+		}
 	}
-
-	setStrokeColor(color) {
-		this.tool.strokeColor = color;
+	setStrokeColor(color: string) {
+		if (this.tool) {
+			this.tool.strokeStyle = color;
+		}
 	}
-
 	setLineWidth(width: number) {
-		this.tool.lineWidth = width;
+		if (this.tool) {
+			this.tool.lineWidth = width;
+		}
 	}
 }
-
-export default new ToolState();
+ export default new ToolState();

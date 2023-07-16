@@ -1,5 +1,5 @@
 import { ChangeEvent, memo } from 'react';
-import toolState from '../../store/toolState';
+import toolState from '../../store/toolState.ts';
 import cls from './SettingsBar.module.css';
 
 interface SettingsBarProps {
@@ -13,7 +13,7 @@ export const SettingsBar = memo((props: SettingsBarProps) => {
 	};
 
 	const onHandleLineColor = (e: ChangeEvent<HTMLInputElement>) => {
-		toolState.setStrokeColor(e.target.value);
+		toolState.setStrokeColor(String(e.target.value));
 	};
 
 	return (
