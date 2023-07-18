@@ -11,3 +11,10 @@ canvas {
 	background-color: white;
 	border: 1px solid gray;
 }
+
+.modalBody {
+    margin: 0 auto;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
