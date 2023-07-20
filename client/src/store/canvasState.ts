@@ -1,17 +1,28 @@
 import {makeAutoObservable} from 'mobx';
 
 class CanvasState {
-    canvas: HTMLCanvasElement;
+    canvas: HTMLCanvasElement | null;
+    soket = null;
+    sessionId = null;
     undoList: string[] = [];
     redoList: string[] = [];
     username: string = '';
 
     constructor() {
+        this.canvas = null;
         makeAutoObservable(this);
     }
 
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
+    }
+
+     setSocket(socket) {
+        this.soket = socket;
+    }
+
+     setSessionId(session) {
+        this.sessionId = session;
     }
 
     setUsername(username: string) {
@@ -27,25 +38,27 @@ class CanvasState {
     }
 
     undo() {
-        const ctx = this.canvas.getContext('2d');
-        if (this.undoList.length) {
-            const lastState = this.undoList.pop();
-            if (ctx && lastState && this.canvas) {
-                this.redoList.push(this.canvas.toDataURL());
-                const img = new Image();
-                img.src = lastState;
-                img.onload = () => {
-                    ctx.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
-                    ctx.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
-                };
+        if(this.canvas) {
+            const ctx = this.canvas.getContext('2d');
+            if (this.undoList.length) {
+                const lastState = this.undoList.pop();
+                if (ctx && lastState && this.canvas) {
+                    this.redoList.push(this.canvas.toDataURL());
+                    const img = new Image();
+                    img.src = lastState;
+                    img.onload = () => {
+                        ctx.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+                        ctx.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
+                    };
+                }
+            } else {
+                console.log('нет действий для отмены');
             }
-        } else {
-            console.log('нет действий для отмены');
         }
     }
 
     redo() {
-        if ('getContext' in this.canvas) {
+        if (this.canvas) {
             const ctx = this.canvas.getContext('2d');
             if (this.redoList.length) {
                 const lastState = this.redoList.pop();
@@ -56,14 +69,12 @@ class CanvasState {
                     img.onload = () => {
                         ctx.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
                         ctx.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
-                    };
-                    this.undoList.push(lastState);
+                    }             
                 }
             } else {
                 console.log('нет действий для повторного применения');
             }
         }
-
     }
 }
 

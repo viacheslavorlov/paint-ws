@@ -2,10 +2,18 @@ import { observer } from 'mobx-react-lite';
 import {useEffect, useRef, useState} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
-import canvasState from '../../store/canvasState';
-import toolState from '../../store/toolState';
-import BrushTool from '../../tools/BrushTool';
+import canvasState from '../../store/canvasState.ts';
+import toolState from '../../store/toolState.ts';
+import BrushTool from '../../tools/BrushTool.ts';
 import cls from './Canvas.module.css';
+
+export type Method = 'connection' | 'draw';
+
+interface Message {
+    method: Method;
+    username: string;
+    id: string;
+}
 
 export const Canvas = observer(() => {
 	const canvasRef = useRef<null | HTMLCanvasElement>(null);
@@ -15,7 +23,7 @@ export const Canvas = observer(() => {
     const nameRef = useRef(null);
 
     const handleClose = () => {
-        if (nameRef.current.value) {
+        if (nameRef.current && nameRef.current.value) {
             setShow(false);
             canvasState.setUsername(nameRef.current.value)
             console.log(nameRef.current.value)
@@ -25,14 +33,16 @@ export const Canvas = observer(() => {
 
 	useEffect(() => {
 		if (canvasRef.current !== null) {
-            canvasState.setCanvas(canvasRef.current as HTMLCanvasElement);
+            canvasState.setCanvas(canvasRef.current);
             toolState.setTool(new BrushTool(canvasRef.current));
         }
 	}, []);
 
     useEffect(() => {
         if (canvasState.username) {
-            const socket = new WebSocket('ws://localhost:8000')
+            const socket = new WebSocket('ws://localhost:8000');
+            canvasState.setSessionId(param.id)
+            canvasState.setSocket(socket)
             socket.onopen = () => {
                 socket.send(JSON.stringify({
                     id: param.id,
@@ -41,11 +51,19 @@ export const Canvas = observer(() => {
                 }))
                 console.log('Подключение установлено');
             }
-            socket.onmessage = (e) => {
-                console.log(e.data);
+            socket.onmessage = (e: MessageEvent) => {
+                const message: Message = JSON.parse(e.data)
+                switch(message.method){
+                    case 'connection':
+                        console.log(`пользователь ${message.username}`)
+                        break;
+                    case 'draw':
+
+                        break;
+                }
             }
         }
-    }, [canvasState.username]);
+    }, [canvasState.username, param.id]);
 
 
 	const mouseDownHandler = () => {

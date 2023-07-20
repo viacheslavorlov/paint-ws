@@ -10,7 +10,7 @@ function broadcastConnection(ws: any, msg: any) {
     aWss.clients.forEach((client) => {
         //@ts-ignore
         if (client.id === msg.id) {
-            client.send(`User ${msg.id} connected`)
+            client.send(JSON.stringify(msg))
         }
     })
 }
@@ -31,7 +31,10 @@ app.ws('/', (ws, req) => {
                 //@ts-ignore
                 connectionHandler(ws, message)
                 ws.send(JSON.stringify(message))
-                break
+                break;
+                case 'draw':
+                    broadcastConnection(ws, msg)
+                    break;
         }
     })
 })
