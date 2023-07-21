@@ -4,8 +4,8 @@ export default class LineTool extends Tools {
 	private startX: number;
 	private startY: number;
 	private memoizedImage: string;
-	constructor(canvas) {
-		super(canvas);
+	constructor(canvas, socket, id) {
+		super(canvas, socket, id);
 		this.listen();
 	}
 

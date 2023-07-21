@@ -21,14 +21,14 @@ export const Toolbar = () => {
     const colors = useContext(ColorsContext)
 
 	const setBrush = () => {
-		toolState.setTool(new BrushTool(canvasState.canvas));
+		toolState.setTool(new BrushTool(canvasState.canvas, canvasState.socket, canvasState.sessionId));
         if ('stroke' in colors) {
             toolState.setStrokeColor(colors.stroke);
         }
 	};
 
 	const setRect = () => {
-		toolState.setTool(new RectangleTool(canvasState.canvas));
+		toolState.setTool(new RectangleTool(canvasState.canvas, canvasState.socket, canvasState.sessionId));
         if ('stroke' in colors) {
             toolState.setStrokeColor(colors.stroke);
         }
@@ -38,18 +38,18 @@ export const Toolbar = () => {
 	};
 
 	const setCircle = () => {
-		toolState.setTool(new CircleTool(canvasState.canvas));
+		toolState.setTool(new CircleTool(canvasState.canvas, canvasState.socket, canvasState.sessionId));
         if ('stroke' in colors) {
             toolState.setStrokeColor(colors.stroke);
         }
 	};
 
 	const setEraser = () => {
-		toolState.setTool(new EraserTool(canvasState.canvas));
+		toolState.setTool(new EraserTool(canvasState.canvas, canvasState.socket, canvasState.sessionId));
 	};
 
 	const setLine = () => {
-		toolState.setTool(new LineTool(canvasState.canvas));
+		toolState.setTool(new LineTool(canvasState.canvas, canvasState.socket, canvasState.sessionId));
         if ('stroke' in colors) {
             toolState.setStrokeColor(colors.stroke);
         }
