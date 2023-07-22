@@ -4,6 +4,8 @@ export interface IColorsContext {
     stroke: string;
     setFill: (color: string) => void;
     setStroke: (color: string) => void;
+    lineWidth: number;
+    setLineWidth: (width: number) => void;
 }
 
 export const ColorsContext = createContext<IColorsContext | null>(null);

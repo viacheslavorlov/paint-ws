@@ -9,22 +9,25 @@ import cls from './App.module.css';
 function App() {
     const [fill, setFill] = useState('#000000');
     const [stroke, setStroke] = useState('#000000');
+    const [lineWidth, setLineWidth] = useState(1);
 
     const colors: IColorsContext = useMemo(() => ({
         fill,
         stroke,
+        lineWidth,
         setFill,
-        setStroke
+        setStroke,
+        setLineWidth
     }), [fill, setFill, setStroke, stroke]);
 
     return (
-            <ColorsContext.Provider value={colors}>
-                <div className={cls.app}>
-                    <Toolbar/>
-                    <SettingsBar/>
-                    <Canvas/>
-                </div>
-            </ColorsContext.Provider>
+        <ColorsContext.Provider value={colors}>
+            <div className={cls.app}>
+                <Toolbar/>
+                <SettingsBar/>
+                <Canvas/>
+            </div>
+        </ColorsContext.Provider>
     );
 }
 

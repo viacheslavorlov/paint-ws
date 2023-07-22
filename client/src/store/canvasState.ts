@@ -7,21 +7,28 @@ class CanvasState {
     undoList: string[] = [];
     redoList: string[] = [];
     username: string = '';
+    fillColor: string = '#000000';
+    strokeColor: string = '#000000';
+    strokeWith: number = 1;
 
     constructor() {
         this.canvas = null;
         makeAutoObservable(this);
     }
 
+    setStrokeWith(stroke) {
+        this.strokeWith = stroke
+    }
+
     setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
     }
 
-     setSocket(socket) {
+    setSocket(socket) {
         this.socket = socket;
     }
 
-     setSessionId(id) {
+    setSessionId(id) {
         this.sessionId = id;
     }
 
@@ -37,8 +44,16 @@ class CanvasState {
         this.redoList.push(data);
     }
 
+    setFillColor(color: string) {
+        this.fillColor = color
+    }
+
+    setStrokeColor(color: string) {
+        this.strokeColor = color
+    }
+
     undo() {
-        if(this.canvas) {
+        if (this.canvas) {
             const ctx = this.canvas.getContext('2d');
             if (this.undoList.length) {
                 const lastState = this.undoList.pop();
@@ -69,7 +84,7 @@ class CanvasState {
                     img.onload = () => {
                         ctx.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
                         ctx.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
-                    }             
+                    };
                 }
             } else {
                 console.log('нет действий для повторного применения');

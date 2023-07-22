@@ -1,7 +1,8 @@
 import {observer} from 'mobx-react-lite';
-import {useEffect, useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
+import {ColorsContext} from '../../Context/Context.js';
 import canvasState from '../../store/canvasState.ts';
 import toolState from '../../store/toolState.ts';
 import BrushTool from '../../tools/BrushTool.ts';
@@ -19,6 +20,8 @@ export interface Figure {
     type: FigureType;
     width?: number;
     height?: number;
+    lineColor?: string;
+    fillColor?: string;
 }
 
 interface Message {
@@ -35,8 +38,9 @@ export const Canvas = observer(() => {
     const [show, setShow] = useState(true);
     const nameRef = useRef(null);
 
+    const color = useContext(ColorsContext);
+
     const drawHandler = (msg: Message) => {
-        console.log('draw works');
         const figure = msg.figure;
         //@ts-ignore
         const ctx = canvasRef.current.getContext('2d');
@@ -46,14 +50,17 @@ export const Canvas = observer(() => {
                 y,
                 width,
                 height,
-                type
+                type,
+                lineColor,
+                fillColor,
+                lineWidth
             } = figure;
             switch (type) {
                 case 'brush':
-                    BrushTool.draw(ctx, x, y);
+                    BrushTool.draw(ctx, x, y, lineColor);
                     break;
                 case 'rect':
-                    RectangleTool.staticDraw(ctx, x, y, width, height);
+                    RectangleTool.staticDraw(ctx, x, y, width, height, fillColor, lineColor, lineWidth);
                     break;
                 case 'eraser':
                     if (x && y) {
@@ -63,7 +70,6 @@ export const Canvas = observer(() => {
                 case 'finish':
                     ctx.beginPath();
                     break;
-
             }
         }
     };
@@ -74,7 +80,6 @@ export const Canvas = observer(() => {
             canvasState.setUsername(nameRef.current.value);
             console.log(nameRef.current.value);
         }
-
     };
 
     useEffect(() => {
@@ -106,12 +111,17 @@ export const Canvas = observer(() => {
                         drawHandler(message);
                         break;
                 }
+
             };
         }
+
     }, [canvasState.username]);
 
 
     const mouseDownHandler = () => {
+        canvasState.setFillColor(color?.fill || '#000000');
+        canvasState.setStrokeColor(color?.stroke || '#000000');
+        canvasState.setStrokeWith(color?.lineWidth);
         if (canvasRef.current !== null) {
             canvasState.pushToUndo(canvasRef.current?.toDataURL());
         }

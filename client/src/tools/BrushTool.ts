@@ -30,6 +30,7 @@ export default class BrushTool extends Tools {
 			e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')),
 			e.clientY - this.canvas.offsetTop,
 		);
+
 	}
 
 	mouseMoveHandler(e: MouseEvent) {
@@ -45,12 +46,14 @@ export default class BrushTool extends Tools {
                     type: 'brush',
                     x: e.pageX - Number(window.getComputedStyle(this.canvas).marginLeft.replace('px', '')),
                     y: e.clientY - this.canvas.offsetTop,
+                    lineColor: this.ctx.strokeStyle
                 }
             }))
 		}
 	}
 
-	static draw(ctx, x, y) {
+	static draw(ctx, x, y, color) {
+        ctx.strokeStyle = color;
 		ctx.lineTo(x, y);
 		ctx.stroke();
 	}
